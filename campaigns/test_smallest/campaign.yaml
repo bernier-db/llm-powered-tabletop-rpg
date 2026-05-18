@@ -1,0 +1,8 @@
+id: test_smallest
+title: "The Missing Villagers — Minimal"
+session_zero:
+  tone: heroic
+  lethality: standard
+  content_lines: []
+  veils: []
+opening_scene: drunken_goose/01_arrival

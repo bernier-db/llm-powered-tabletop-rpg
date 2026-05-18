@@ -1,0 +1,18 @@
+id: 01_arrival
+location_id: drunken_goose
+title: Arrival at the Drunken Goose
+description: >
+  The party arrives at the Drunken Goose tavern. Barkeep Marta Voss is behind
+  the counter, polishing tankards with a rag that has seen better days. The
+  common room is quieter than it should be for early evening. Villagers have
+  gone missing from the nearby farms; Marta knows more than she is letting on.
+npcs_present:
+  - barkeep_marta
+player_characters_present:
+  - pc_aryn
+dm_notes: >
+  Marta is frightened but trying to hide it. She will reveal the missing
+  villagers freely but will not volunteer anything about the cultists unless
+  the party earns her trust (high perception or diplomacy check) or explicitly
+  asks about Torvald. Her secret is pinned in her memories — it will always
+  surface in memory recall even if the scene is short.

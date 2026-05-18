@@ -1,0 +1,40 @@
+id: pc_aryn
+name: Aryn Vale
+controller: human
+class: Rogue
+level: 1
+hp: 16
+max_hp: 16
+ac: 14
+saves:
+  fort: 3
+  ref: 6
+  will: 4
+ability_scores:
+  str: 10
+  dex: 18
+  con: 12
+  int: 14
+  wis: 12
+  cha: 13
+skills:
+  perception: 5
+  stealth: 7
+  deception: 5
+  diplomacy: 3
+  athletics: 2
+  thievery: 7
+inventory: []
+equipment:
+  - name: Leather Armour
+    slot: body
+  - name: Shortsword
+    slot: main_hand
+  - name: Dagger
+    slot: off_hand
+secrets: []
+hidden_agenda: null
+background: >
+  A former city runner turned independent agent. Has personal reasons for
+  hunting cults — a sibling disappeared in similar circumstances two years ago.
+  Does not broadcast this.
