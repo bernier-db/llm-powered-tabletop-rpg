@@ -100,7 +100,7 @@ describe('NPCMemorySchema', () => {
   });
 
   it('pinned memories exempt from decay — schema accepts recall_strength: 1.0 + pinned: true', () => {
-    // This is the design invariant from design/04-npc-memory.md §Decay:
+    // This is the design invariant from spec/04-npc-memory.md §Decay:
     // pinned memories are always included in top-K regardless of recency.
     // The schema does not enforce decay = 1.0 for pinned (the engine does at read time),
     // but it must at minimum accept the valid combination.

@@ -1,8 +1,8 @@
 // src/schema/roll-log.ts
-// Cross-ref: design/08-cross-cutting.md §Deterministic RNG per session
-//            design/13-risks-tripwires.md §8 (seed RNG, log every roll before consuming)
-//            design/02-tools-orchestration.md §Key invariants (all writes transactional + audited)
-//            design/14-glossary.md §Rules Engine
+// Cross-ref: spec/08-cross-cutting.md §Deterministic RNG per session
+//            spec/13-risks-tripwires.md §8 (seed RNG, log every roll before consuming)
+//            spec/02-tools-orchestration.md §Key invariants (all writes transactional + audited)
+//            spec/14-glossary.md §Rules Engine
 // The roll_log is the audit trail: every dice result is written here BEFORE being
 // returned to the caller (tripwire #8). Enables replay, rewind, and deterministic testing.
 import { z } from 'zod';
@@ -10,7 +10,7 @@ import { RollLogId, SessionId, ActorId, SceneId, OutcomeDegreeSchema, Timestamp,
 
 // ---------------------------------------------------------------------------
 // RollType — what kind of resolution was requested
-// Cross-ref: design/02-tools-orchestration.md §Rules engine (roll, check, attack, cast_spell, etc.)
+// Cross-ref: spec/02-tools-orchestration.md §Rules engine (roll, check, attack, cast_spell, etc.)
 // ---------------------------------------------------------------------------
 export const RollTypeSchema = z.union([
   z.literal('check'),       // skill check via `check` tool
@@ -27,7 +27,7 @@ export type RollType = z.infer<typeof RollTypeSchema>;
 
 // ---------------------------------------------------------------------------
 // RollLog — one audit row per dice invocation
-// Cross-ref: design/08-cross-cutting.md §Deterministic RNG §roll_log table
+// Cross-ref: spec/08-cross-cutting.md §Deterministic RNG §roll_log table
 // Fields match the audit requirements from tripwire #8:
 //   session_id, seed_offset, actor_id, tool_name (roll_type), context
 // ---------------------------------------------------------------------------

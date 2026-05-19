@@ -70,7 +70,7 @@ describe('GenerationRequestSchema', () => {
   });
 
   it('accepts a request with a non-empty canon_snapshot (critical: tripwire #2)', () => {
-    // Cross-ref: design/13-risks-tripwires.md §2 — every generation starts with canon retrieval
+    // Cross-ref: spec/13-risks-tripwires.md §2 — every generation starts with canon retrieval
     const req = makeGenerationRequest({
       canon_snapshot: [
         {

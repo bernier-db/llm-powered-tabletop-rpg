@@ -9,8 +9,8 @@
 //   - IDs are plain strings (not branded; branding happens at load time)
 //   - Nested YAML blocks (e.g. seed_memories, edges) may appear inline
 //
-// Cross-ref: design/architecture/generation/01-campaign-authoring-validation.md
-//            design/14-glossary.md §Canon (the loader commits these to canon)
+// Cross-ref: spec/architecture/generation/01-campaign-authoring-validation.md
+//            spec/14-glossary.md §Canon (the loader commits these to canon)
 //
 // These schemas are also used by tests/schema/test-campaign-validates.test.ts.
 
@@ -22,7 +22,7 @@ const NonEmptyString = z.string().min(1);
 
 // ─── NPC authored (covers both PC and NPC files) ──────────────────────────────
 // Source files: campaigns/test_smallest/npcs/*.yaml and *.md (frontmatter)
-// Cross-ref: design/04-npc-memory.md §Schema (seed_memories)
+// Cross-ref: spec/04-npc-memory.md §Schema (seed_memories)
 
 const SeedMemoryAuthoredSchema = z.object({
   summary: NonEmptyString.optional(),
@@ -89,7 +89,7 @@ export type NPCAuthored = z.infer<typeof NPCAuthoredSchema>;
 
 // ─── Location authored ─────────────────────────────────────────────────────────
 // Source files: campaigns/test_smallest/locations/*.md (frontmatter block)
-// Cross-ref: design/07-geography.md §Schema
+// Cross-ref: spec/07-geography.md §Schema
 
 export const LocationAuthoredSchema = z.object({
   id: NonEmptyString,

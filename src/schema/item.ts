@@ -1,13 +1,13 @@
 // src/schema/item.ts
-// Cross-ref: design/06-generation.md §Per-entity notes (Items), §What gets generated
-//            design/14-glossary.md §Canon (Codex)
+// Cross-ref: spec/06-generation.md §Per-entity notes (Items), §What gets generated
+//            spec/14-glossary.md §Canon (Codex)
 //            campaigns/test_smallest/ (items/ directory for the loader shape)
 import { z } from 'zod';
 import { ItemId, ActorId } from './common';
 
 // ---------------------------------------------------------------------------
 // Item tiers — discriminated union on `tier`
-// Cross-ref: design/06-generation.md §Per-entity notes:
+// Cross-ref: spec/06-generation.md §Per-entity notes:
 //   - mundane: tables only, no LLM
 //   - flavorful_mundane: light LLM pass (locket with a name, half-burned letter)
 //   - narrative: full LLM pass with provenance (who made it, why, what it cost)
@@ -25,7 +25,7 @@ export const MundaneItemSchema = z.object({
     z.literal('negligible'),
   ]),
   value_gp: z.number().min(0),
-  // TBD: encumbrance is "obvious stuff: yes/no" (design/03-rules-combat.md §Cut)
+  // TBD: encumbrance is "obvious stuff: yes/no" (spec/03-rules-combat.md §Cut)
   //   so weight_category is sufficient for v1
 });
 export type MundaneItem = z.infer<typeof MundaneItemSchema>;
@@ -76,7 +76,7 @@ export const NarrativeItemSchema = z.object({
 
   // Mechanical effect (narrative items may have flat bonuses or story-gated effects)
   // TBD: formal effect schema once the ~30-spell / item bonus design is locked
-  // Cross-ref: design/03-rules-combat.md §Cut (most magic-item bonuses cut; narrative effects kept)
+  // Cross-ref: spec/03-rules-combat.md §Cut (most magic-item bonuses cut; narrative effects kept)
   effect_description: z.string().nullable(),
   flat_bonus: z.number().int().nullable(), // e.g. +1 to a skill; TBD define what it applies to
 

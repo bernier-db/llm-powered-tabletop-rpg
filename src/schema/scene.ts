@@ -1,7 +1,7 @@
 // src/schema/scene.ts
-// Cross-ref: design/05-director.md §Outputs
-//            design/architecture/backstage/01-director-between-scenes.md §classDiagram
-//            design/14-glossary.md §Scene, §Scene Brief, §Scene Break
+// Cross-ref: spec/05-director.md §Outputs
+//            spec/architecture/backstage/01-director-between-scenes.md §classDiagram
+//            spec/14-glossary.md §Scene, §Scene Brief, §Scene Break
 import { z } from 'zod';
 import {
   SceneId,
@@ -15,8 +15,8 @@ import {
 
 // ---------------------------------------------------------------------------
 // ForeshadowSeedRef — planted seed reference inside a SceneBrief
-// Cross-ref: design/architecture/backstage/01-director-between-scenes.md §classDiagram
-//            design/14-glossary.md §Foreshadow Queue / Foreshadow Seed
+// Cross-ref: spec/architecture/backstage/01-director-between-scenes.md §classDiagram
+//            spec/14-glossary.md §Foreshadow Queue / Foreshadow Seed
 // ---------------------------------------------------------------------------
 export const ForeshadowSeedRefSchema = z.object({
   seed_id: ForeshadowSeedId,
@@ -27,7 +27,7 @@ export type ForeshadowSeedRef = z.infer<typeof ForeshadowSeedRefSchema>;
 
 // ---------------------------------------------------------------------------
 // NPCIntersection — NPC about to cross the party's path
-// Cross-ref: design/architecture/backstage/01-director-between-scenes.md §classDiagram (NPCEntry)
+// Cross-ref: spec/architecture/backstage/01-director-between-scenes.md §classDiagram (NPCEntry)
 // ---------------------------------------------------------------------------
 export const NPCIntersectionSchema = z.object({
   npc_id: ActorId,
@@ -38,7 +38,7 @@ export type NPCIntersection = z.infer<typeof NPCIntersectionSchema>;
 
 // ---------------------------------------------------------------------------
 // SpotlightNudge — per-PC nudge from the Director
-// Cross-ref: design/05-director.md §Spotlight nudge; design/14-glossary.md §Spotlight Tracker
+// Cross-ref: spec/05-director.md §Spotlight nudge; spec/14-glossary.md §Spotlight Tracker
 // ---------------------------------------------------------------------------
 export const SpotlightNudgeSchema = z.object({
   pc_id: ActorId,
@@ -48,8 +48,8 @@ export type SpotlightNudge = z.infer<typeof SpotlightNudgeSchema>;
 
 // ---------------------------------------------------------------------------
 // SceneBrief — the Director's output document read by the DM agent at scene start
-// Cross-ref: design/architecture/backstage/01-director-between-scenes.md §classDiagram
-//            design/05-director.md §Outputs; design/14-glossary.md §Scene Brief
+// Cross-ref: spec/architecture/backstage/01-director-between-scenes.md §classDiagram
+//            spec/05-director.md §Outputs; spec/14-glossary.md §Scene Brief
 // ---------------------------------------------------------------------------
 export const SceneBriefSchema = z.object({
   scene_id: SceneId,
@@ -73,15 +73,15 @@ export const SceneBriefSchema = z.object({
   faction_evidence: z.array(z.string()),
 
   // "fail, but…" hooks pre-seeded for likely check failures
-  // Cross-ref: design/05-director.md §Fail-forward by default
+  // Cross-ref: spec/05-director.md §Fail-forward by default
   fail_forward_hooks: z.array(z.string()),
 });
 export type SceneBrief = z.infer<typeof SceneBriefSchema>;
 
 // ---------------------------------------------------------------------------
 // SceneTranscriptEntry — one turn's worth of narration in hot memory
-// Cross-ref: design/14-glossary.md §Hot Memory, §Beat (turn)
-//            design/02-tools-orchestration.md §One beat (pseudocode)
+// Cross-ref: spec/14-glossary.md §Hot Memory, §Beat (turn)
+//            spec/02-tools-orchestration.md §One beat (pseudocode)
 // ---------------------------------------------------------------------------
 export const SceneTranscriptEntrySchema = z.object({
   entry_id: z.string(),       // TBD: brand as TranscriptEntryId
@@ -100,7 +100,7 @@ export const SceneTranscriptEntrySchema = z.object({
   world_time: WorldTime,
   wall_time: Timestamp,
 
-  // Cross-ref: design/08-cross-cutting.md §Summarizer (what gets preserved)
+  // Cross-ref: spec/08-cross-cutting.md §Summarizer (what gets preserved)
   // Metadata for the summarizer to know what this entry contains
   contains_roll_outcome: z.boolean(),
   contains_entity_introduction: z.boolean(),
@@ -111,7 +111,7 @@ export type SceneTranscriptEntry = z.infer<typeof SceneTranscriptEntrySchema>;
 
 // ---------------------------------------------------------------------------
 // Scene — the bounded narrative unit
-// Cross-ref: design/14-glossary.md §Scene, §Scene Break
+// Cross-ref: spec/14-glossary.md §Scene, §Scene Break
 // ---------------------------------------------------------------------------
 export const SceneStatusSchema = z.union([
   z.literal('active'),

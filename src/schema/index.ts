@@ -1,7 +1,7 @@
 // src/schema/index.ts
 // Re-export everything from all schema files.
 // This is the single import point for downstream consumers.
-// Cross-ref: design/12-schemas.md §File layout
+// Cross-ref: spec/12-schemas.md §File layout
 
 export * from './common.js';
 export * from './actor.js';

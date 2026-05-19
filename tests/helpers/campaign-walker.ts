@@ -13,7 +13,7 @@
 //   (root)     → 'Campaign'
 //
 // This file is test infrastructure only — not production code.
-// Cross-ref: design/architecture/generation/01-campaign-authoring-validation.md
+// Cross-ref: spec/architecture/generation/01-campaign-authoring-validation.md
 
 import { readdirSync, readFileSync, statSync } from 'fs';
 import { join, relative, basename, extname, dirname } from 'path';

@@ -26,7 +26,7 @@ Tests are only permitted to import from these five public surfaces:
 
 | Surface | What it exposes |
 |---|---|
-| `src/engine/` | The Engine public API — `Engine.boot()`, `EngineSession`, `session.playerInput()`, `session.openScene()`, `session.close()` (signatures in `design/15-v01-milestone.md` §2) |
+| `src/engine/` | The Engine public API — `Engine.boot()`, `EngineSession`, `session.playerInput()`, `session.openScene()`, `session.close()` (signatures in `spec/15-v01-milestone.md` §2) |
 | `src/schema/` | Zod schemas, TypeScript types, factory helpers |
 | `src/tools/` | Tool functions callable directly in tests — `get_actor`, `check`, `commit_npc_memory`, etc. (each with a contract tested at the function boundary) |
 | `src/loader/` | The `load()` function and its observable artifacts: rows in SQLite, codex entries, Zod validation errors |
@@ -118,7 +118,7 @@ Use the real SQLite, the real Zod schemas, the real tool surface. Mock only the 
 
 **Scenario tests (≈20%)**
 
-Scope: end-to-end campaign playthroughs against `campaigns/test_smallest/`. These are the v0.1 milestone tests from `design/15-v01-milestone.md` §3. Each scenario test boots the engine, plays through a scripted beat sequence using the mock LLM in replay mode, and asserts observable state at each phase.
+Scope: end-to-end campaign playthroughs against `campaigns/test_smallest/`. These are the v0.1 milestone tests from `spec/15-v01-milestone.md` §3. Each scenario test boots the engine, plays through a scripted beat sequence using the mock LLM in replay mode, and asserts observable state at each phase.
 
 Location: `tests/scenario/<flow>.test.ts`.
 
@@ -227,15 +227,15 @@ Tests run with `rngSeed: 0xC0DE0001` (the project constant) unless the test is s
 
 This is not optional for replay mode. The `MockLLMClient` replays fixtures keyed to prompt hashes; if the rules engine produces non-deterministic outputs that change the DM's prompt (e.g., the narration of a crit success vs. a failure), the hash will not match and the fixture will be missing. Pin the seed; pin the hash; get deterministic CI.
 
-Cross-reference: tripwire #8 in `design/13-risks-tripwires.md` — "Seed RNG per session, log every roll before consuming it." The test for tripwire #8 is an integration test: call `check()`, kill the process mid-run (or throw after return), replay from `roll_log`, confirm the roll was already recorded.
+Cross-reference: tripwire #8 in `spec/13-risks-tripwires.md` — "Seed RNG per session, log every roll before consuming it." The test for tripwire #8 is an integration test: call `check()`, kill the process mid-run (or throw after return), replay from `roll_log`, confirm the roll was already recorded.
 
-`grep -rn "Math\.random\|crypto\.randomInt" src/` returning zero hits is a CI assertion (AC-10 in `design/15-v01-milestone.md`). This grep runs as a test, not as a code review note.
+`grep -rn "Math\.random\|crypto\.randomInt" src/` returning zero hits is a CI assertion (AC-10 in `spec/15-v01-milestone.md`). This grep runs as a test, not as a code review note.
 
 ---
 
 ## 6. Eval harness — concrete format
 
-The eval harness sketched as "open" in `design/08-cross-cutting.md` is defined here.
+The eval harness sketched as "open" in `spec/08-cross-cutting.md` is defined here.
 
 ### Scenario file format
 
@@ -294,7 +294,7 @@ Eval failures **do not block PR merge by default.** They raise an alarm. An eval
 
 ## 7. What we explicitly do NOT test
 
-- **Prompt text.** Prompts evolve constantly. Any assertion on prompt wording, structure, or length is testing volatility, not behavior. The only assertions on prompts are that the session-zero block is present (a structural check — see AC-18 in `design/15-v01-milestone.md`) and that session config is injected (tripwire #14).
+- **Prompt text.** Prompts evolve constantly. Any assertion on prompt wording, structure, or length is testing volatility, not behavior. The only assertions on prompts are that the session-zero block is present (a structural check — see AC-18 in `spec/15-v01-milestone.md`) and that session config is injected (tripwire #14).
 - **Internal class structure, private methods, or helper module boundaries.** Import paths in tests must stay on the public surfaces listed in §2. No exceptions.
 - **LLM output format quirks.** Whether the model uses markdown bullets, how it capitalizes NPC names, whether it says "Critical Success" or "crit success." These are not behavioral contracts.
 - **Token counts.** Not until a cost-per-turn budget exists and a gate is explicitly designed. Speculative `expect(tokenCount).toBeLessThan(500)` assertions will rot the moment the context changes.
@@ -342,7 +342,7 @@ The `npm run check` script does **not** gate on coverage. Coverage is reported; 
 
 `npm run check` is the local gate. It runs: `tsc --noEmit && eslint src/ && vitest run`. All unit, integration, and scenario tests must pass. Eval tests run separately via `npm run eval`. CI runs `npm run check` on every push. PRs are blocked on a red `check`.
 
-The grep-based CI assertions (tripwires #3, #6, #7, #8 — see `design/13-risks-tripwires.md`) run as vitest tests inside the `check` suite, not as shell scripts. They are owned by the test suite, not by a CI config file, so they cannot be bypassed by CI environment changes.
+The grep-based CI assertions (tripwires #3, #6, #7, #8 — see `spec/13-risks-tripwires.md`) run as vitest tests inside the `check` suite, not as shell scripts. They are owned by the test suite, not by a CI config file, so they cannot be bypassed by CI environment changes.
 
 **The agent must never commit a known-failing test as "in progress."** If a test is red:
 - Fix the code. (Preferred.)

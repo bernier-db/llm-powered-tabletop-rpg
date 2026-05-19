@@ -1,18 +1,18 @@
 // src/schema/campaign-state.ts
-// Cross-ref: design/05-director.md §Inputs (faction clocks, spotlight tracker, NPC schedule, foreshadow queue)
-//            design/architecture/backstage/01-director-between-scenes.md §Inputs
-//            design/14-glossary.md §Director, §Spotlight Tracker, §Faction Clock, §Foreshadow Queue
+// Cross-ref: spec/05-director.md §Inputs (faction clocks, spotlight tracker, NPC schedule, foreshadow queue)
+//            spec/architecture/backstage/01-director-between-scenes.md §Inputs
+//            spec/14-glossary.md §Director, §Spotlight Tracker, §Faction Clock, §Foreshadow Queue
 //
 // CampaignState is the Director-owned runtime state that spans scenes and sessions.
 // It is NOT the full game state — that lives across many SQLite tables. This is
-// specifically the Director's backstage state as described in design/05-director.md.
+// specifically the Director's backstage state as described in spec/05-director.md.
 import { z } from 'zod';
 import { FactionId, ActorId, SceneId, WorldTime, Timestamp } from './common.js';
 import { ForeshadowSeedSchema } from './foreshadow.js';
 
 // ---------------------------------------------------------------------------
 // FactionClockState — current runtime state of one faction's progress clock
-// Cross-ref: design/05-director.md §Faction clocks; design/14-glossary.md §Faction Clock
+// Cross-ref: spec/05-director.md §Faction clocks; spec/14-glossary.md §Faction Clock
 // NOTE: This is the *runtime* state slice. The authored clock definition lives in
 //       campaigns/.../factions/*.md; this is the SQLite-persisted current state.
 // ---------------------------------------------------------------------------
@@ -22,7 +22,7 @@ export const FactionClockStateSchema = z.object({
   segments: z.number().int().positive(),
   filled: z.number().int().nonnegative(),
   // Structural invariant: filled cannot exceed segments
-  // Cross-ref: design/13-risks-tripwires.md — HP/clock invariants enforced structurally
+  // Cross-ref: spec/13-risks-tripwires.md — HP/clock invariants enforced structurally
   last_advanced_at: WorldTime.nullable(),
   evidence_on_last_advance: z.string().nullable(), // visible evidence injected into scene brief
 }).strict().refine(
@@ -33,7 +33,7 @@ export type FactionClockState = z.infer<typeof FactionClockStateSchema>;
 
 // ---------------------------------------------------------------------------
 // SpotlightRecord — per-actor scene-centrality count
-// Cross-ref: design/05-director.md §Spotlight tracker; design/14-glossary.md §Spotlight Tracker
+// Cross-ref: spec/05-director.md §Spotlight tracker; spec/14-glossary.md §Spotlight Tracker
 // The Director nudges spotlight toward underserved PCs using this counter.
 // ---------------------------------------------------------------------------
 export const SpotlightRecordSchema = z.record(
@@ -44,7 +44,7 @@ export type SpotlightRecord = z.infer<typeof SpotlightRecordSchema>;
 
 // ---------------------------------------------------------------------------
 // NPCScheduleEntry — one NPC's current off-screen position and intent
-// Cross-ref: design/architecture/backstage/01-director-between-scenes.md §Inputs (Off-screen NPC schedule)
+// Cross-ref: spec/architecture/backstage/01-director-between-scenes.md §Inputs (Off-screen NPC schedule)
 // The Director uses this to decide which NPCs are about to intersect the party.
 // ---------------------------------------------------------------------------
 export const NPCScheduleEntrySchema = z.object({
@@ -58,7 +58,7 @@ export type NPCScheduleEntry = z.infer<typeof NPCScheduleEntrySchema>;
 
 // ---------------------------------------------------------------------------
 // CampaignState — Director-owned backstage state
-// Cross-ref: design/05-director.md §Inputs
+// Cross-ref: spec/05-director.md §Inputs
 // ---------------------------------------------------------------------------
 export const CampaignStateSchema = z.object({
   campaign_id: z.string().min(1),
@@ -67,15 +67,15 @@ export const CampaignStateSchema = z.object({
   faction_clocks: z.array(FactionClockStateSchema),
 
   // Spotlight tracker: maps actor_id → number of scenes as central figure
-  // Cross-ref: design/14-glossary.md §Spotlight Tracker
+  // Cross-ref: spec/14-glossary.md §Spotlight Tracker
   spotlight_tracker: SpotlightRecordSchema,
 
   // Off-screen NPC schedule: where each named NPC is and what they're doing
-  // Cross-ref: design/architecture/backstage/01-director-between-scenes.md §Inputs
+  // Cross-ref: spec/architecture/backstage/01-director-between-scenes.md §Inputs
   npc_schedule: z.array(NPCScheduleEntrySchema),
 
   // Foreshadow queue: seeds available to be planted by the Director
-  // Cross-ref: design/14-glossary.md §Foreshadow Queue / Foreshadow Seed
+  // Cross-ref: spec/14-glossary.md §Foreshadow Queue / Foreshadow Seed
   foreshadow_queue: z.array(ForeshadowSeedSchema),
 
   // Last time the Director ran (null before first scene break)

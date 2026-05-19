@@ -63,7 +63,7 @@ describe('CodexEntrySchema', () => {
   });
 
   it('accepts a session chronicle entry (session-end compaction output)', () => {
-    // Cross-ref: design/architecture/backstage/02-memory-tiers-summarizer.md §Session-end compaction
+    // Cross-ref: spec/architecture/backstage/02-memory-tiers-summarizer.md §Session-end compaction
     expect(() =>
       CodexEntrySchema.parse(
         makeCodexEntry({

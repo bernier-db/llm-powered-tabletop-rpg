@@ -1,13 +1,13 @@
 // src/schema/common.ts
-// Cross-ref: design/00-overview.md §Actor abstraction, §Four layers
-//            design/03-rules-combat.md §Pathfinder-lightweight choices §Position
-//            design/08-cross-cutting.md §Session zero
-//            design/14-glossary.md §Controller, §OutcomeDegree, §Zone
+// Cross-ref: spec/00-overview.md §Actor abstraction, §Four layers
+//            spec/03-rules-combat.md §Pathfinder-lightweight choices §Position
+//            spec/08-cross-cutting.md §Session zero
+//            spec/14-glossary.md §Controller, §OutcomeDegree, §Zone
 import { z } from 'zod';
 
 // ---------------------------------------------------------------------------
 // Branded ID primitives
-// Cross-ref: design/13-risks-tripwires.md §11 (Zod validation of tool args)
+// Cross-ref: spec/13-risks-tripwires.md §11 (Zod validation of tool args)
 // ---------------------------------------------------------------------------
 export const ActorId = z.string().brand<'ActorId'>();
 export type ActorId = z.infer<typeof ActorId>;
@@ -56,7 +56,7 @@ export type CampaignId = z.infer<typeof CampaignId>;
 
 // ---------------------------------------------------------------------------
 // Timestamp and world time
-// Cross-ref: design/04-npc-memory.md §Schema (ts field)
+// Cross-ref: spec/04-npc-memory.md §Schema (ts field)
 // ---------------------------------------------------------------------------
 
 /** Unix epoch milliseconds (JS Date.now()) for wall-clock timestamps. */
@@ -73,7 +73,7 @@ export type WorldTime = z.infer<typeof WorldTime>;
 
 // ---------------------------------------------------------------------------
 // Controller union
-// Cross-ref: design/00-overview.md §Actor abstraction; design/14-glossary.md §Controller
+// Cross-ref: spec/00-overview.md §Actor abstraction; spec/14-glossary.md §Controller
 // ---------------------------------------------------------------------------
 export const ControllerSchema = z.union([
   z.literal('human'),
@@ -84,8 +84,8 @@ export type Controller = z.infer<typeof ControllerSchema>;
 
 // ---------------------------------------------------------------------------
 // Four-degree outcome ladder
-// Cross-ref: design/03-rules-combat.md §Pathfinder-lightweight choices
-//            design/14-glossary.md §Four-Degree Outcome Ladder
+// Cross-ref: spec/03-rules-combat.md §Pathfinder-lightweight choices
+//            spec/14-glossary.md §Four-Degree Outcome Ladder
 // ---------------------------------------------------------------------------
 export const OutcomeDegreeSchema = z.union([
   z.literal('crit_fail'),
@@ -97,7 +97,7 @@ export type OutcomeDegree = z.infer<typeof OutcomeDegreeSchema>;
 
 // ---------------------------------------------------------------------------
 // Lethality tier (session zero)
-// Cross-ref: design/08-cross-cutting.md §Session zero; design/14-glossary.md §Lethality
+// Cross-ref: spec/08-cross-cutting.md §Session zero; spec/14-glossary.md §Lethality
 // ---------------------------------------------------------------------------
 export const LethalitySchema = z.union([
   z.literal('cinematic'),
@@ -108,7 +108,7 @@ export type Lethality = z.infer<typeof LethalitySchema>;
 
 // ---------------------------------------------------------------------------
 // Tone (session zero)
-// Cross-ref: design/08-cross-cutting.md §Session zero; design/14-glossary.md §Tone
+// Cross-ref: spec/08-cross-cutting.md §Session zero; spec/14-glossary.md §Tone
 // ---------------------------------------------------------------------------
 export const ToneSchema = z.union([
   z.literal('heroic'),
@@ -125,7 +125,7 @@ export type Tone = z.infer<typeof ToneSchema>;
 
 // ---------------------------------------------------------------------------
 // Pacing (session zero)
-// Cross-ref: design/08-cross-cutting.md §Session zero
+// Cross-ref: spec/08-cross-cutting.md §Session zero
 // ---------------------------------------------------------------------------
 export const PacingSchema = z.union([
   z.literal('fast-cut'),
@@ -135,7 +135,7 @@ export type Pacing = z.infer<typeof PacingSchema>;
 
 // ---------------------------------------------------------------------------
 // Combat granularity (session zero)
-// Cross-ref: design/08-cross-cutting.md §Session zero
+// Cross-ref: spec/08-cross-cutting.md §Session zero
 // ---------------------------------------------------------------------------
 export const CombatGranularitySchema = z.union([
   z.literal('narrative'),
@@ -145,7 +145,7 @@ export type CombatGranularity = z.infer<typeof CombatGranularitySchema>;
 
 // ---------------------------------------------------------------------------
 // Combat zones (position abstraction — not a grid)
-// Cross-ref: design/03-rules-combat.md §Position; design/14-glossary.md §Zone
+// Cross-ref: spec/03-rules-combat.md §Position; spec/14-glossary.md §Zone
 // ---------------------------------------------------------------------------
 export const CombatZoneSchema = z.union([
   z.literal('close'),
@@ -157,7 +157,7 @@ export type CombatZone = z.infer<typeof CombatZoneSchema>;
 
 // ---------------------------------------------------------------------------
 // Pacing call (Director output, injected into SceneBrief)
-// Cross-ref: design/05-director.md §Outputs; design/14-glossary.md §Pacing Call
+// Cross-ref: spec/05-director.md §Outputs; spec/14-glossary.md §Pacing Call
 // ---------------------------------------------------------------------------
 export const PacingCallSchema = z.union([
   z.literal('escalate'),
@@ -168,7 +168,7 @@ export type PacingCall = z.infer<typeof PacingCallSchema>;
 
 // ---------------------------------------------------------------------------
 // Directions (LocationEdge)
-// Cross-ref: design/07-geography.md §Schema
+// Cross-ref: spec/07-geography.md §Schema
 // ---------------------------------------------------------------------------
 export const DirectionSchema = z.union([
   z.literal('N'),
@@ -184,7 +184,7 @@ export type Direction = z.infer<typeof DirectionSchema>;
 
 // ---------------------------------------------------------------------------
 // Terrain type (LocationEdge)
-// Cross-ref: design/07-geography.md §Schema
+// Cross-ref: spec/07-geography.md §Schema
 // ---------------------------------------------------------------------------
 export const TerrainSchema = z.union([
   z.literal('road'),
@@ -199,7 +199,7 @@ export type Terrain = z.infer<typeof TerrainSchema>;
 
 // ---------------------------------------------------------------------------
 // Danger level (LocationEdge)
-// Cross-ref: design/07-geography.md §Schema
+// Cross-ref: spec/07-geography.md §Schema
 // ---------------------------------------------------------------------------
 export const DangerLevelSchema = z.union([
   z.literal(0),
@@ -212,7 +212,7 @@ export type DangerLevel = z.infer<typeof DangerLevelSchema>;
 
 // ---------------------------------------------------------------------------
 // EntityRef (used inside GenerationRequest)
-// Cross-ref: design/06-generation.md §Reusable generation contract
+// Cross-ref: spec/06-generation.md §Reusable generation contract
 // ---------------------------------------------------------------------------
 export const EntityRefSchema = z.object({
   id: z.string(),

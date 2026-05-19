@@ -1,14 +1,14 @@
 // src/schema/faction.ts
-// Cross-ref: design/05-director.md §Faction clocks
-//            design/06-generation.md §What gets generated (Factions — almost always authored)
-//            design/14-glossary.md §Faction Clock
+// Cross-ref: spec/05-director.md §Faction clocks
+//            spec/06-generation.md §What gets generated (Factions — almost always authored)
+//            spec/14-glossary.md §Faction Clock
 //            campaigns/test_smallest/factions/cult_of_red_sigil.md (concrete example)
 import { z } from 'zod';
 import { FactionId, ActorId, Timestamp, WorldTime } from './common';
 
 // ---------------------------------------------------------------------------
 // FactionClock — segmented progress bar tracking a faction's goal
-// Cross-ref: design/05-director.md §Faction clocks; design/14-glossary.md §Faction Clock
+// Cross-ref: spec/05-director.md §Faction clocks; spec/14-glossary.md §Faction Clock
 // The Director advances clocks between scenes and injects visible evidence into the scene brief.
 // ---------------------------------------------------------------------------
 export const FactionClockSchema = z.object({
@@ -34,7 +34,7 @@ export type FactionClock = z.infer<typeof FactionClockSchema>;
 
 // ---------------------------------------------------------------------------
 // Faction — an organized group with a goal and members
-// Cross-ref: design/06-generation.md §What gets generated; design/14-glossary.md §Faction Clock
+// Cross-ref: spec/06-generation.md §What gets generated; spec/14-glossary.md §Faction Clock
 // ---------------------------------------------------------------------------
 export const FactionSchema = z.object({
   id: FactionId,

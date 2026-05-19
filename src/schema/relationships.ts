@@ -1,7 +1,7 @@
 // src/schema/relationships.ts
-// Cross-ref: design/01-storage.md §Relationships table (SQL)
-//            design/14-glossary.md §Relationships Table
-//            design/02-tools-orchestration.md §State reads (get_relationships)
+// Cross-ref: spec/01-storage.md §Relationships table (SQL)
+//            spec/14-glossary.md §Relationships Table
+//            spec/02-tools-orchestration.md §State reads (get_relationships)
 // The relationships table is an adjacency-list SQL structure encoding the "graph"
 // of entity relationships. Avoids Neo4j; most queries are 1-2 hops.
 import { z } from 'zod';
@@ -9,7 +9,7 @@ import { RelationshipId, Timestamp, WorldTime } from './common';
 
 // ---------------------------------------------------------------------------
 // RelationType — the nature of the connection between two entities
-// Cross-ref: design/14-glossary.md §Relationships Table ("who knows whom, faction memberships,
+// Cross-ref: spec/14-glossary.md §Relationships Table ("who knows whom, faction memberships,
 //            NPC-to-location ties, inter-NPC bonds")
 // TBD: this is a sketch vocabulary; expand as campaign authoring formats are finalized
 // ---------------------------------------------------------------------------
@@ -39,7 +39,7 @@ export const RelationTypeSchema = z.union([
   z.literal('frequent_visitor'),  // subject regularly visits the object location
 
   // TBD: add 'knows_secret_of', 'blackmails', 'informant_for' once faction intel
-  //      propagation (design/04-npc-memory.md §Cross-NPC memory) is designed
+  //      propagation (spec/04-npc-memory.md §Cross-NPC memory) is designed
 ]);
 export type RelationType = z.infer<typeof RelationTypeSchema>;
 

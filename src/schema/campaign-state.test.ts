@@ -26,7 +26,7 @@ describe('FactionClockStateSchema', () => {
   });
 
   it('rejects filled > segments (structural invariant)', () => {
-    // This enforces design/13-risks-tripwires.md HP/clock invariant: cannot exceed maximum
+    // This enforces spec/13-risks-tripwires.md HP/clock invariant: cannot exceed maximum
     expect(() =>
       FactionClockStateSchema.parse(makeFactionClockState({ filled: 5, segments: 4 })),
     ).toThrow();

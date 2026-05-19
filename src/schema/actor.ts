@@ -1,7 +1,7 @@
 // src/schema/actor.ts
-// Cross-ref: design/00-overview.md §Actor abstraction
-//            design/03-rules-combat.md §Conditions, §3-action economy
-//            design/14-glossary.md §Actor, §Controller, §Drives, §Lines (Companion)
+// Cross-ref: spec/00-overview.md §Actor abstraction
+//            spec/03-rules-combat.md §Conditions, §3-action economy
+//            spec/14-glossary.md §Actor, §Controller, §Drives, §Lines (Companion)
 import { z } from 'zod';
 import {
   ActorId,
@@ -13,7 +13,7 @@ import {
 
 // ---------------------------------------------------------------------------
 // Condition
-// Cross-ref: design/03-rules-combat.md §Pathfinder-lightweight choices (Conditions)
+// Cross-ref: spec/03-rules-combat.md §Pathfinder-lightweight choices (Conditions)
 // ---------------------------------------------------------------------------
 export const ConditionSchema = z.object({
   name: z.string(),       // e.g. 'frightened', 'prone', 'off-guard', 'dying'
@@ -25,7 +25,7 @@ export type Condition = z.infer<typeof ConditionSchema>;
 
 // ---------------------------------------------------------------------------
 // ActorSheet — mechanical stats
-// Cross-ref: design/03-rules-combat.md §Keep (six ability scores, HP, AC, saves)
+// Cross-ref: spec/03-rules-combat.md §Keep (six ability scores, HP, AC, saves)
 // This is a sketch shape; exact ability scores/saves to expand when rules are locked.
 // ---------------------------------------------------------------------------
 export const AbilityScoresSchema = z.object({
@@ -51,22 +51,22 @@ export const ActorSheetSchema = z.object({
   ac: z.number().int(),
   level: z.number().int().min(1),
   archetype: z.string(),               // class archetype name: Fighter, Rogue, Cleric, etc.
-  // TBD: extend with archetype-tier feature list once class packages are authored (design/03-rules-combat.md §Classes)
+  // TBD: extend with archetype-tier feature list once class packages are authored (spec/03-rules-combat.md §Classes)
   ability_scores: AbilityScoresSchema,
   saves: SavesSchema,
   speed: z.number().int(),             // feet (used for zone transitions in travel; exact value TBD)
   actions_remaining: z.number().int().min(0).max(3),  // 3-action economy; resets per turn
   conditions: z.array(ConditionSchema),
   skills: z.record(z.string(), z.number().int()), // skill name → total modifier
-  // TBD: spell slots per tradition once the ~30-spell list is authored (design/03-rules-combat.md §Cut)
-  // TBD: encumbrance? Design says "obvious stuff: yes/no" only (design/03-rules-combat.md §Cut)
+  // TBD: spell slots per tradition once the ~30-spell list is authored (spec/03-rules-combat.md §Cut)
+  // TBD: encumbrance? Design says "obvious stuff: yes/no" only (spec/03-rules-combat.md §Cut)
 });
 export type ActorSheet = z.infer<typeof ActorSheetSchema>;
 
 // ---------------------------------------------------------------------------
 // Companion drives and lines
-// Cross-ref: design/14-glossary.md §Drives, §Lines (Companion)
-//            design/architecture/party-shapes/01-solo-ai-companion.md §How the gate decides
+// Cross-ref: spec/14-glossary.md §Drives, §Lines (Companion)
+//            spec/architecture/party-shapes/01-solo-ai-companion.md §How the gate decides
 // ---------------------------------------------------------------------------
 export const DriveSchema = z.object({
   text: z.string(), // e.g. "redeem brother's memory", "protect children"
@@ -80,14 +80,14 @@ export type Line = z.infer<typeof LineSchema>;
 
 // ---------------------------------------------------------------------------
 // AgentProfile — optional sub-object for agent-controlled actors
-// Cross-ref: design/00-overview.md §Actor abstraction
-//            design/04-npc-memory.md §Generation seed (voice register, secret)
-//            design/06-generation.md §Per-entity notes (speech_sample field name — glossary §5)
+// Cross-ref: spec/00-overview.md §Actor abstraction
+//            spec/04-npc-memory.md §Generation seed (voice register, secret)
+//            spec/06-generation.md §Per-entity notes (speech_sample field name — glossary §5)
 // ---------------------------------------------------------------------------
 export const AgentProfileSchema = z.object({
   goals: z.array(z.string()),           // high-level intentions this actor pursues
   personality: z.array(z.string()),     // trait tags, e.g. ["pragmatic", "superstitious"]
-  speech_sample: z.string(),            // canonical field name per design/14-glossary.md §Speech Sample
+  speech_sample: z.string(),            // canonical field name per spec/14-glossary.md §Speech Sample
                                         // short text in NPC's own register; used as voice anchor
   voice_register: z.string().optional(), // prose descriptor: "terse, dry, short declarative sentences"
   secrets: z.array(z.string()),         // hidden agendas; not visible in redacted NPC views
@@ -100,8 +100,8 @@ export type AgentProfile = z.infer<typeof AgentProfileSchema>;
 
 // ---------------------------------------------------------------------------
 // PendingAction — current intent before resolution
-// Cross-ref: design/00-overview.md §Actor abstraction (current_intent)
-//            design/02-tools-orchestration.md §One beat (pseudocode)
+// Cross-ref: spec/00-overview.md §Actor abstraction (current_intent)
+//            spec/02-tools-orchestration.md §One beat (pseudocode)
 // ---------------------------------------------------------------------------
 export const PendingActionSchema = z.object({
   description: z.string(),
@@ -118,7 +118,7 @@ export type PendingAction = z.infer<typeof PendingActionSchema>;
 
 // ---------------------------------------------------------------------------
 // Actor — the universal abstraction for anything that takes a turn
-// Cross-ref: design/00-overview.md §Actor abstraction; design/14-glossary.md §Actor
+// Cross-ref: spec/00-overview.md §Actor abstraction; spec/14-glossary.md §Actor
 // ---------------------------------------------------------------------------
 export const ActorSchema = z.object({
   id: ActorId,
@@ -142,7 +142,7 @@ export const ActorSchema = z.object({
   // Current intent during turn resolution; null when awaiting input
   current_intent: PendingActionSchema.nullable(),
 
-  // Voice TTS config — schema not yet finalized; see design/09-multimodality.md
+  // Voice TTS config — schema not yet finalized; see spec/09-multimodality.md
   // TBD: expand to full VoiceProfile object when 09-multimodality.md is deepened
   voice_id: z.string().optional(),
 

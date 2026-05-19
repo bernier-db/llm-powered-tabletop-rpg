@@ -10,7 +10,7 @@ updated: 2026-05-17
 
 Capture-now, build-later. Not on the critical path; not in any design topic file yet.
 
-If an idea here turns out to have architectural implications, **promote it** to its own topic file in `design/` and update [`TODO-BRAINSTORM.md`](TODO-BRAINSTORM.md).
+If an idea here turns out to have architectural implications, **promote it** to its own topic file in `spec/` and update [`TODO-BRAINSTORM.md`](TODO-BRAINSTORM.md).
 
 (TTS / STT / image-gen were promoted out of this list — see [`09-multimodality.md`](09-multimodality.md).)
 

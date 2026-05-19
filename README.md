@@ -1,6 +1,6 @@
 # rpg-engine
 
-An LLM-powered RPG engine. Design documents live in `design/`; implementation is tracked from the v0.1 milestone spec at `design/15-v01-milestone.md`.
+An LLM-powered RPG engine. Spec documents live in `spec/`; implementation is tracked from the v0.1 milestone spec at `spec/15-v01-milestone.md`.
 
 ## npm scripts
 

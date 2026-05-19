@@ -1,38 +1,38 @@
 // src/schema/generation.ts
-// Cross-ref: design/06-generation.md §Reusable generation contract
-//            design/14-glossary.md §Generator Agent, §Two-Layer Pattern, §Canon Preservation Rule
-//            design/13-risks-tripwires.md §2 (every generation prompt starts with canon retrieval)
-//            design/13-risks-tripwires.md §16 (generated entities are permanent after canon commit)
+// Cross-ref: spec/06-generation.md §Reusable generation contract
+//            spec/14-glossary.md §Generator Agent, §Two-Layer Pattern, §Canon Preservation Rule
+//            spec/13-risks-tripwires.md §2 (every generation prompt starts with canon retrieval)
+//            spec/13-risks-tripwires.md §16 (generated entities are permanent after canon commit)
 import { z } from 'zod';
 import { EntityRefSchema } from './common.js';
 import { CodexEntrySchema } from './codex.js';
 
 // ---------------------------------------------------------------------------
 // GenerationConstraints — what the generator must/must not do
-// Cross-ref: design/06-generation.md §Reusable generation contract (constraints field)
-//            design/06-generation.md §Anti-archetype counter-measures
+// Cross-ref: spec/06-generation.md §Reusable generation contract (constraints field)
+//            spec/06-generation.md §Anti-archetype counter-measures
 // ---------------------------------------------------------------------------
 export const GenerationConstraintsSchema = z.object({
   // Things that must appear in the generated entity
   must_include: z.array(z.string()).optional(),
 
   // Things that must not appear (anti-archetype counter-measures)
-  // Cross-ref: design/06-generation.md §Anti-archetype counter-measures
+  // Cross-ref: spec/06-generation.md §Anti-archetype counter-measures
   must_exclude: z.array(z.string()).optional(),
 
   // Thematic hints from the parent context (e.g. "this is a church-adjacent location")
   theme_hints: z.array(z.string()).optional(),
 
   // Override the session-zero tone for this generation only
-  // Cross-ref: design/08-cross-cutting.md §Session zero; design/14-glossary.md §Tone
+  // Cross-ref: spec/08-cross-cutting.md §Session zero; spec/14-glossary.md §Tone
   tone_override: z.string().optional(), // TBD: constrain to ToneSchema values when imported
 }).strict();
 export type GenerationConstraints = z.infer<typeof GenerationConstraintsSchema>;
 
 // ---------------------------------------------------------------------------
 // VarietyState — usage tracking to bias generation away from overused patterns
-// Cross-ref: design/06-generation.md §Anti-archetype counter-measures
-//            design/06-generation.md §Two-layer pattern (skeleton rolls use this)
+// Cross-ref: spec/06-generation.md §Anti-archetype counter-measures
+//            spec/06-generation.md §Two-layer pattern (skeleton rolls use this)
 // ---------------------------------------------------------------------------
 export const VarietyStateSchema = z.object({
   // Trait tags already used in this region/session (avoid repetition)
@@ -48,7 +48,7 @@ export type VarietyState = z.infer<typeof VarietyStateSchema>;
 
 // ---------------------------------------------------------------------------
 // GenerationRequest<T> — the input contract for the Generator agent
-// Cross-ref: design/06-generation.md §Reusable generation contract
+// Cross-ref: spec/06-generation.md §Reusable generation contract
 // Generic over the entity type T (Actor, Location, Item, etc.)
 // The canonical shape is preserved exactly from the design doc; the `T` type
 // parameter annotates what the caller expects back — it is a phantom type here
@@ -65,7 +65,7 @@ export function makeGenerationRequestSchema<T extends z.ZodTypeAny>(entitySchema
     constraints: GenerationConstraintsSchema,
 
     // Pre-retrieved codex entries relevant to this generation
-    // Cross-ref: design/13-risks-tripwires.md §2 (this MUST be populated — canon retrieval first)
+    // Cross-ref: spec/13-risks-tripwires.md §2 (this MUST be populated — canon retrieval first)
     canon_snapshot: z.array(CodexEntrySchema),
 
     // Variety state for the parent context (trait/name/archetype usage)
@@ -73,7 +73,7 @@ export function makeGenerationRequestSchema<T extends z.ZodTypeAny>(entitySchema
 
     // TBD: procedural skeleton output (from stage 1 of two-layer pattern)
     // The skeleton is computed by the engine before the LLM call; shape is entity-specific.
-    // Cross-ref: design/06-generation.md §The two-layer pattern §1 Procedural skeleton
+    // Cross-ref: spec/06-generation.md §The two-layer pattern §1 Procedural skeleton
     skeleton: z.record(z.string(), z.unknown()).optional(),
 
     // Unused at runtime; carries the expected entity type for TypeScript inference
@@ -93,7 +93,7 @@ export type GenerationRequest = z.infer<typeof GenerationRequestSchema>;
 
 // ---------------------------------------------------------------------------
 // GenerationHook — a follow-up generation trigger discovered during generation
-// Cross-ref: design/06-generation.md §Reusable generation contract (follow_up_hooks)
+// Cross-ref: spec/06-generation.md §Reusable generation contract (follow_up_hooks)
 //            e.g. "NPC mentioned a brother — generate if asked"
 // ---------------------------------------------------------------------------
 export const GenerationHookSchema = z.object({
@@ -113,7 +113,7 @@ export type GenerationHook = z.infer<typeof GenerationHookSchema>;
 
 // ---------------------------------------------------------------------------
 // GenerationResult<T> — the output contract from the Generator agent
-// Cross-ref: design/06-generation.md §Reusable generation contract
+// Cross-ref: spec/06-generation.md §Reusable generation contract
 // ---------------------------------------------------------------------------
 export const GenerationResultSchema = z.object({
   // The generated entity (shape varies by entity kind — opaque here)
@@ -121,7 +121,7 @@ export const GenerationResultSchema = z.object({
   entity: z.unknown(),
 
   // The canonical ID assigned after committing to SQLite + codex
-  // Cross-ref: design/13-risks-tripwires.md §16 (permanent after commit)
+  // Cross-ref: spec/13-risks-tripwires.md §16 (permanent after commit)
   committed_id: z.string(),
 
   // Follow-up hooks for lazy generation of mentioned-but-not-yet-created entities

@@ -410,7 +410,7 @@ Run after `npm run dev`. This is a human-in-the-loop walkthrough, not a green/re
 3. The CLI smoke test in §4 passes by hand — a human runs every step and sees the described output.
 4. The `roll_log` table in the runtime SQLite DB is non-empty after one complete playthrough (verified by test E-1 and visually during the §4 smoke test).
 5. No file under `campaigns/test_smallest/` has been modified during a playthrough — verified by test A-5 (mtime check) and by inspection confirming the DB save path is outside `campaigns/`.
-6. No tripwire from `design/13-risks-tripwires.md` that is enforceable by the v0.1 test surface has been violated. See the tripwire coverage map below.
+6. No tripwire from `spec/13-risks-tripwires.md` that is enforceable by the v0.1 test surface has been violated. See the tripwire coverage map below.
 
 ### Tripwire coverage map for v0.1
 

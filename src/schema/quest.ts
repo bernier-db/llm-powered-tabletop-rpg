@@ -1,7 +1,7 @@
 // src/schema/quest.ts
-// Cross-ref: design/02-tools-orchestration.md §State reads (get_active_quests)
-//            design/02-tools-orchestration.md §State writes (mark_quest_beat)
-//            design/14-glossary.md §Beat (campaign)
+// Cross-ref: spec/02-tools-orchestration.md §State reads (get_active_quests)
+//            spec/02-tools-orchestration.md §State writes (mark_quest_beat)
+//            spec/14-glossary.md §Beat (campaign)
 // NOTE: Quest schema is a minimal sketch — the design only mentions quests in passing.
 // Extend when the quest authoring format is designed.
 import { z } from 'zod';
@@ -21,7 +21,7 @@ export type QuestStatus = z.infer<typeof QuestStatusSchema>;
 
 // ---------------------------------------------------------------------------
 // QuestBeat — a named step / milestone within a quest
-// Cross-ref: design/14-glossary.md §Beat (campaign) (quest beats follow the same node model)
+// Cross-ref: spec/14-glossary.md §Beat (campaign) (quest beats follow the same node model)
 // TBD: this is a minimal sketch; expand with clue-path validation once tripwire #18 is implemented
 // ---------------------------------------------------------------------------
 export const QuestBeatSchema = z.object({
@@ -29,7 +29,7 @@ export const QuestBeatSchema = z.object({
   description: z.string(),  // player-facing progress note
 
   // TBD: clue_edges — number of independent paths to reach this beat
-  // Cross-ref: design/13-risks-tripwires.md §18 (≥3 independent clue-paths per load-bearing conclusion)
+  // Cross-ref: spec/13-risks-tripwires.md §18 (≥3 independent clue-paths per load-bearing conclusion)
   clue_edge_count: z.number().int().min(0), // TBD: loader validates ≥3 for required beats
 
   is_required: z.boolean(), // true = blocking; false = optional enrichment
@@ -58,7 +58,7 @@ export const QuestSchema = z.object({
   beats: z.array(QuestBeatSchema),
 
   // TBD: reward schema (XP, items, reputation) once progression is locked
-  // Cross-ref: design/03-rules-combat.md §Progression & level-up
+  // Cross-ref: spec/03-rules-combat.md §Progression & level-up
 
   started_at: WorldTime.nullable(),
   completed_at: WorldTime.nullable(),

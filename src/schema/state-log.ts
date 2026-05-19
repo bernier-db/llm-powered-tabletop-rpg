@@ -1,7 +1,7 @@
 // src/schema/state-log.ts
-// Cross-ref: design/02-tools-orchestration.md §Key invariants ("All writes are transactional and audited")
-//            design/13-risks-tripwires.md §6 (no bare SQL writes outside the tool surface)
-//            design/08-cross-cutting.md §Deterministic RNG (same audit-trail discipline)
+// Cross-ref: spec/02-tools-orchestration.md §Key invariants ("All writes are transactional and audited")
+//            spec/13-risks-tripwires.md §6 (no bare SQL writes outside the tool surface)
+//            spec/08-cross-cutting.md §Deterministic RNG (same audit-trail discipline)
 // The state_log is the audit trail for every state mutation. Combined with roll_log,
 // it enables full session replay and deterministic testing.
 import { z } from 'zod';
@@ -9,7 +9,7 @@ import { SessionId, ActorId, SceneId, Timestamp } from './common.js';
 
 // ---------------------------------------------------------------------------
 // StateLogEntry — one row per tool invocation that mutates state
-// Cross-ref: design/13-risks-tripwires.md §6 and §8 (transactional + audited)
+// Cross-ref: spec/13-risks-tripwires.md §6 and §8 (transactional + audited)
 // Every call to a state-write tool produces one StateLogEntry BEFORE the mutation
 // is committed — the before_hash is captured first, then the write happens.
 // ---------------------------------------------------------------------------

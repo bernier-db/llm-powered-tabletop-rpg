@@ -1,15 +1,15 @@
 // src/schema/foreshadow.ts
-// Cross-ref: design/05-director.md §Foreshadowing queue
-//            design/14-glossary.md §Foreshadow Queue / Foreshadow Seed
-//            design/architecture/backstage/01-director-between-scenes.md §classDiagram
+// Cross-ref: spec/05-director.md §Foreshadowing queue
+//            spec/14-glossary.md §Foreshadow Queue / Foreshadow Seed
+//            spec/architecture/backstage/01-director-between-scenes.md §classDiagram
 //            campaigns/test_smallest/foreshadow/cult_symbol.md (concrete example)
 import { z } from 'zod';
 import { ForeshadowSeedId, BeatId, SceneId, Timestamp } from './common';
 
 // ---------------------------------------------------------------------------
 // ForeshadowSeed — a planted hint waiting to be delivered into a scene
-// Cross-ref: design/14-glossary.md §Foreshadow Queue / Foreshadow Seed
-//            design/architecture/backstage/01-director-between-scenes.md §classDiagram (ForeshadowSeed)
+// Cross-ref: spec/14-glossary.md §Foreshadow Queue / Foreshadow Seed
+//            spec/architecture/backstage/01-director-between-scenes.md §classDiagram (ForeshadowSeed)
 //            campaigns/test_smallest/foreshadow/cult_symbol.md
 // ---------------------------------------------------------------------------
 export const ForeshadowSeedSchema = z.object({
@@ -22,7 +22,7 @@ export const ForeshadowSeedSchema = z.object({
   description: z.string(),
 
   // Tags used by the Director to match seeds to the current scene's location/situation
-  // Cross-ref: design/architecture/backstage/01-director-between-scenes.md §classDiagram
+  // Cross-ref: spec/architecture/backstage/01-director-between-scenes.md §classDiagram
   context_tags: z.array(z.string()), // e.g. ["cult_of_red_sigil", "south_road", "visual_marker"]
 
   // Where / how the DM should surface this seed in the scene
@@ -48,13 +48,13 @@ export type ForeshadowSeed = z.infer<typeof ForeshadowSeedSchema>;
 // ---------------------------------------------------------------------------
 // ForeshadowQueue — the full collection of seeds for a campaign
 // Used by the Director to select 1-2 seeds per between-scene run
-// Cross-ref: design/05-director.md §Inputs (foreshadow queue)
+// Cross-ref: spec/05-director.md §Inputs (foreshadow queue)
 // ---------------------------------------------------------------------------
 export const ForeshadowQueueSchema = z.object({
   campaign_id: z.string(), // CampaignId — string to avoid cross-import
   seeds: z.array(ForeshadowSeedSchema),
 
   // TBD: priority/decay algorithm for selecting seeds each Director run
-  // Cross-ref: design/05-director.md §Open (Foreshadow priority/decay)
+  // Cross-ref: spec/05-director.md §Open (Foreshadow priority/decay)
 });
 export type ForeshadowQueue = z.infer<typeof ForeshadowQueueSchema>;

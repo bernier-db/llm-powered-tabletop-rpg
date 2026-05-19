@@ -1,14 +1,14 @@
 // src/schema/codex.ts
-// Cross-ref: design/architecture/backstage/02-memory-tiers-summarizer.md §Session-end → cold compaction
-//            design/14-glossary.md §Canon (Codex), §Cold Recall
-//            design/13-risks-tripwires.md §1 (lock embedding model before first vector write)
-//            design/06-generation.md §Canon commit (codex = where committed entities live)
+// Cross-ref: spec/architecture/backstage/02-memory-tiers-summarizer.md §Session-end → cold compaction
+//            spec/14-glossary.md §Canon (Codex), §Cold Recall
+//            spec/13-risks-tripwires.md §1 (lock embedding model before first vector write)
+//            spec/06-generation.md §Canon commit (codex = where committed entities live)
 import { z } from 'zod';
 import { CodexEntryId, Timestamp, WorldTime } from './common.js';
 
 // ---------------------------------------------------------------------------
 // CodexEntityType — what kind of entity this entry describes
-// Cross-ref: design/14-glossary.md §Canon (codex), §Generator Agent
+// Cross-ref: spec/14-glossary.md §Canon (codex), §Generator Agent
 // TBD: extend when dungeon / encounter codex entries are designed
 // ---------------------------------------------------------------------------
 export const CodexEntityTypeSchema = z.union([
@@ -26,8 +26,8 @@ export type CodexEntityType = z.infer<typeof CodexEntityTypeSchema>;
 
 // ---------------------------------------------------------------------------
 // CodexEntry — one persisted record in the vector codex
-// Cross-ref: design/architecture/backstage/02-memory-tiers-summarizer.md §Session-end compaction
-//            design/06-generation.md §Canon commit ("committed to SQLite + embedded into vector codex")
+// Cross-ref: spec/architecture/backstage/02-memory-tiers-summarizer.md §Session-end compaction
+//            spec/06-generation.md §Canon commit ("committed to SQLite + embedded into vector codex")
 // ---------------------------------------------------------------------------
 export const CodexEntrySchema = z.object({
   id: CodexEntryId,
@@ -37,11 +37,11 @@ export const CodexEntrySchema = z.object({
   entity_type: CodexEntityTypeSchema,
 
   // The natural-language summary injected into agent prompts on cold recall
-  // Cross-ref: design/02-tools-orchestration.md §Context budgeting (layer 6: cold recall)
+  // Cross-ref: spec/02-tools-orchestration.md §Context budgeting (layer 6: cold recall)
   summary: z.string(),
 
   // sqlite-vec rowid for the embedding of this entry's summary text
-  // Cross-ref: design/13-risks-tripwires.md §1 (embedding dimension locked at DB init)
+  // Cross-ref: spec/13-risks-tripwires.md §1 (embedding dimension locked at DB init)
   embedding_id: z.string().nullable(), // null before the entry has been embedded
 
   // Arbitrary per-entry metadata (e.g. { session: 3, beat: '01_arrival', importance: 'high' })

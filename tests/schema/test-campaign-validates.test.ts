@@ -8,9 +8,9 @@
 // a full loader (Wave 2) will parse YAML bodies, resolve references, seed
 // SQLite, and run deeper validation gates.
 //
-// Cross-ref: design/architecture/generation/01-campaign-authoring-validation.md
-//            design/13-risks-tripwires.md §7 (authored markdown is read-only during play)
-//            design/13-risks-tripwires.md §18 (≥3 clue-paths per required beat — loader gate, not here)
+// Cross-ref: spec/architecture/generation/01-campaign-authoring-validation.md
+//            spec/13-risks-tripwires.md §7 (authored markdown is read-only during play)
+//            spec/13-risks-tripwires.md §18 (≥3 clue-paths per required beat — loader gate, not here)
 
 import { describe, it, expect } from 'vitest';
 import { join, dirname } from 'path';
@@ -121,7 +121,7 @@ describe('test_smallest campaign — authored file validation', () => {
       const coerced = coerceFrontmatterFields(file.frontmatter.fields);
 
       // Strip fields that are clearly markdown-doc metadata (title, status,
-      // summary, related, updated) — these live in design/ frontmatter but
+      // summary, related, updated) — these live in spec/ frontmatter but
       // some campaign files also use them for documentation purposes.
       // The authored-campaign schemas use .passthrough() or .strict() as
       // appropriate; for strict schemas we drop doc-only keys first.

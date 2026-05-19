@@ -1,6 +1,6 @@
 // src/schema/location.ts
-// Cross-ref: design/07-geography.md §Schema, §move_party() flow
-//            design/14-glossary.md §Location, §Location Edge, §Party Movement
+// Cross-ref: spec/07-geography.md §Schema, §move_party() flow
+//            spec/14-glossary.md §Location, §Location Edge, §Party Movement
 import { z } from 'zod';
 import {
   LocationId,
@@ -16,7 +16,7 @@ import {
 
 // ---------------------------------------------------------------------------
 // Location
-// Cross-ref: design/07-geography.md §Schema; design/14-glossary.md §Location, §Settlement, §Region
+// Cross-ref: spec/07-geography.md §Schema; spec/14-glossary.md §Location, §Settlement, §Region
 // ---------------------------------------------------------------------------
 export const LocationTypeSchema = z.union([
   z.literal('region'),
@@ -45,7 +45,7 @@ export const LocationSchema = z.object({
   type: LocationTypeSchema,
 
   // Hierarchical containment — parent is null at the world-root level
-  // Cross-ref: design/07-geography.md §Zoom
+  // Cross-ref: spec/07-geography.md §Zoom
   parent_id: LocationId.nullable(),
 
   biome: z.string().nullable(),         // e.g. 'temperate_hills', null for buildings
@@ -64,7 +64,7 @@ export type Location = z.infer<typeof LocationSchema>;
 
 // ---------------------------------------------------------------------------
 // CheckSpec — gating requirement for an edge that requires a skill check
-// Cross-ref: design/07-geography.md §Schema (LocationEdge.requires)
+// Cross-ref: spec/07-geography.md §Schema (LocationEdge.requires)
 // ---------------------------------------------------------------------------
 export const CheckSpecSchema = z.object({
   skill: z.string(),
@@ -74,7 +74,7 @@ export type CheckSpec = z.infer<typeof CheckSpecSchema>;
 
 // ---------------------------------------------------------------------------
 // LocationEdge — directed edge in the spatial graph
-// Cross-ref: design/07-geography.md §Schema; design/14-glossary.md §Location Edge
+// Cross-ref: spec/07-geography.md §Schema; spec/14-glossary.md §Location Edge
 // ---------------------------------------------------------------------------
 export const LocationEdgeRequiresSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('item'), item_id: ItemId }),
@@ -113,7 +113,7 @@ export type LocationEdge = z.infer<typeof LocationEdgeSchema>;
 
 // ---------------------------------------------------------------------------
 // TravelEvent — a single event that occurred during a travel segment
-// Cross-ref: design/07-geography.md §move_party() flow §Per segment
+// Cross-ref: spec/07-geography.md §move_party() flow §Per segment
 // ---------------------------------------------------------------------------
 export const TravelEventSchema = z.object({
   segment_from_id: LocationId,
@@ -133,7 +133,7 @@ export type TravelEvent = z.infer<typeof TravelEventSchema>;
 
 // ---------------------------------------------------------------------------
 // PartyMovementLog
-// Cross-ref: design/07-geography.md §Schema
+// Cross-ref: spec/07-geography.md §Schema
 // ---------------------------------------------------------------------------
 export const PartyMovementLogSchema = z.object({
   id: z.string(),                       // TBD: brand as PartyMovementLogId
