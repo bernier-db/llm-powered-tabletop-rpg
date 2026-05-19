@@ -15,7 +15,7 @@ export interface GameState {
 export interface SessionRepository {
   getGameState(): GameState | undefined;
   saveGameState(state: GameState): void;
-  addTurn(entry: SceneTranscriptEntry): void;
+  addTurn(sessionId: SessionId, entry: SceneTranscriptEntry): void;
   getTurns(sessionId: SessionId, sceneId: SceneId): SceneTranscriptEntry[];
 }
 
@@ -58,13 +58,13 @@ export function createSessionRepository(db: DB): SessionRepository {
         state.world_time, state.state_json, state.updated_at,
       );
     },
-    addTurn(entry) {
+    addTurn(sessionId, entry) {
       db.prepare(`INSERT INTO turns
         (session_id, scene_id, turn_index, speaker_id, speaker_role, text,
          world_time, wall_time, contains_roll_outcome, contains_entity_introduction,
          contains_decision, contains_emotional_beat)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
-        entry.scene_id, entry.scene_id, entry.turn_index,
+        sessionId, entry.scene_id, entry.turn_index,
         entry.speaker_id, entry.speaker_role, entry.text,
         entry.world_time, entry.wall_time,
         entry.contains_roll_outcome ? 1 : 0,

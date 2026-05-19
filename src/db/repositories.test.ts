@@ -124,8 +124,8 @@ describe('SessionRepository', () => {
       contains_roll_outcome: false, contains_entity_introduction: false,
       contains_decision: true, contains_emotional_beat: false,
     };
-    repo.addTurn(entry as any);
-    const turns = repo.getTurns('sc-1' as any, 'sc-1' as any);
+    repo.addTurn('sess-1' as any, entry as any);
+    const turns = repo.getTurns('sess-1' as any, 'sc-1' as any);
     expect(turns).toHaveLength(1);
     expect(turns[0]!.text).toBe('I search the room.');
     expect(turns[0]!.contains_decision).toBe(true);
