@@ -1,0 +1,6 @@
+id: wrong_id_for_filename
+name: Bad NPC
+role: Test NPC with wrong ID
+personality: A test NPC
+lives_in: nonexistent_location
+faction_id: nonexistent_faction

@@ -1,0 +1,9 @@
+id: broken_test
+title: "Broken Campaign for Testing"
+session_zero:
+  tone: heroic
+  lethality: standard
+  content_lines: []
+  veils: []
+start_location: nonexistent_location
+start_beat: nonexistent_beat
