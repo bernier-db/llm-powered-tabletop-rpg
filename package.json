@@ -20,7 +20,7 @@
     "@ai-sdk/openai": "^1.1.0",
     "ai": "^5.0.52",
     "better-sqlite3": "^11.7.0",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^5.2.2",
     "ollama-ai-provider": "^1.2.0",
     "sqlite-vec": "^0.1.6",
     "zod": "^3.23.8"
@@ -31,7 +31,7 @@
     "@types/node": "^22.10.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
     "@typescript-eslint/parser": "^8.18.0",
-    "eslint": "^9.17.0",
+    "eslint": "^10.8.0",
     "prettier": "^3.4.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
